@@ -5,61 +5,56 @@
 **Language**: C++
 
 ## 1. Introduction
-This project implements a numerical integration solver in C++ to compute the definite integral of a function using three methods: the Trapezoidal Rule, Simpson’s 1/3 Rule, and Simpson’s 3/8 Rule. I developed this project to enhance my understanding of numerical methods—fundamental to my interest in Applied Mathematics—and to improve my C++ programming skills as part of my preparation for a master’s program and a summer 2026 research internship.
+This project implements a numerical integration solver in C++ to compute the definite integral of a function using three methods: the Trapezoidal Rule, Simpson’s 1/3 Rule, and Simpson’s 3/8 Rule. I developed this project to deepen my understanding of numerical methods, which are fundamental to my interest in Applied Mathematics, and to enhance my C++ programming skills. The solver calculates integrals, compares them with exact values to determine errors, and identifies the most accurate method for each computation.
 
 ## 2. Problem Statement
 The objective is to calculate the definite integral  
 ![∫_a^b f(x) dx](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx)  
-for a given function f(x) over the interval [a, b] using numerical methods. The program supports four predefined functions and compares each numerical result with its exact integral to compute errors, providing insights into the accuracy of each method.
+for a given function \( f(x) \) over an interval \([a, b]\) using numerical methods. The program supports four predefined functions, computes the integral using all applicable methods, compares numerical results with the exact integral to calculate errors, and identifies the method with the smallest error, providing insights into the accuracy of each approach.
 
 ## 3. Approach and Methodology
-The project uses three classical numerical integration methods:
+The project employs three numerical integration methods:
 
 - **Trapezoidal Rule**  
   Approximates the integral as:  
-
   ![Trapezoidal formula](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx\approx\frac{h}{2}\bigl(f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)\bigr))  
-
   where  
   ![h formula](https://latex.codecogs.com/png.image?\dpi{100}h=\frac{b-a}{n})  
-  and n is the number of subintervals.
+  and \( n \) is the number of subintervals.
 
 - **Simpson’s 1/3 Rule**  
   Approximates the integral as:  
-
   ![Simpson 1/3 formula](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx\approx\frac{h}{3}\Bigl(f(a)+4\sum_{\substack{i=1\\i\,\text{odd}}}^{n-1}f(x_i)+2\sum_{\substack{i=2\\i\,\text{even}}}^{n-2}f(x_i)+f(b)\Bigr))  
-
-  requiring n to be even.
+  requiring \( n \) to be even.
 
 - **Simpson’s 3/8 Rule**  
   Approximates the integral as:  
-
   ![Simpson 3/8 formula](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx\approx\frac{3h}{8}\Bigl(f(a)+3\sum_{\substack{i=1\\i\equiv1\pmod3}}^{n-2}f(x_i)+3\sum_{\substack{i=2\\i\equiv2\pmod3}}^{n-1}f(x_i)+2\sum_{\substack{i=3\\i\equiv0\pmod3}}^{n-3}f(x_i)+f(b)\Bigr))  
-
-  requiring n to be a multiple of 3.
+  requiring \( n \) to be a multiple of 3.
 
 **Implementation Outline:**  
 1. Allow the user to select one of four predefined functions.  
-2. Prompt for interval endpoints a and b, plus the number of subintervals n.  
-3. Compute the integral using all applicable methods (checking that n is even for 1/3 Rule, multiple of 3 for 3/8 Rule).  
-4. Compare each numerical result with the exact integral and display the absolute error.
+2. Prompt for interval endpoints \( a \) and \( b \), plus the number of subintervals \( n \).  
+3. Compute the integral using all applicable methods (checking that \( n \) is even for Simpson’s 1/3 Rule, a multiple of 3 for Simpson’s 3/8 Rule).  
+4. Compare each numerical result with the exact integral to calculate absolute errors.  
+5. Identify the method with the smallest error and display it as the most accurate method.
 
 ## 4. Implementation Details
 - **Function Selection**  
-  Uses `std::function<double(double)>` and lambda expressions to switch among four predefined functions:  
-  1. \(x^2 + 3x + 2\)  
-  2. \(sin(5x)/2 + 1\)  
-  3. \(3cos(2x) + 2\)  
-  4. \(2e^{3x}\)
+  Uses `std::function<float(float)>` and lambda expressions to switch among four predefined functions:  
+  1. \( x^2 + 3x + 2 \)  
+  2. \( \sin(5x)/2 + 1 \)  
+  3. \( 3\cos(2x) + 2 \)  
+  4. \( 2e^{3x} \)
 
 - **Input Validation**  
-  - Checks that \(a < b\).  
-  - Ensures \(n > 0\).  
-  - Verifies that \(n\) is even when using Simpson’s 1/3 Rule.  
-  - Verifies that \(n\) is a multiple of 3 when using Simpson’s 3/8 Rule.
+  - Ensures \( a < b \).  
+  - Validates that \( n > 0 \).  
+  - Verifies that \( n \) is even when using Simpson’s 1/3 Rule.  
+  - Verifies that \( n \) is a multiple of 3 when using Simpson’s 3/8 Rule.
 
 - **Output Formatting**  
-  Uses `std::setw` and `std::setprecision` to produce a neatly aligned table. Numeric values are shown with six decimal places for clarity.
+  Uses `std::setw` and `std::setprecision` to produce a neatly aligned table. Integral values are shown with six decimal places, and errors are shown with twelve decimal places for clarity. The program also displays the most accurate method based on the smallest error.
 
 ## 5. Results
 Test cases (all values rounded to six decimals in the output):
@@ -86,17 +81,22 @@ Test cases (all values rounded to six decimals in the output):
 > **Note:** For Simpson’s 3/8 Rule, \(n\) must be a multiple of 3. Because 100 ÷ 3 is not integral, the solver reports “Invalid” for that method.
 
 ## 6. Challenges and Learnings
-- Deriving the exact integrals of trigonometric expressions required care (e.g., integrating \(\tfrac12\sin(5x)\)).  
-- Formatting the console‐output table with `std::setw` and `std::setprecision` to align decimal points took some trial-and-error.  
-- I gained confidence using `std::function` and lambdas to switch functions at runtime, and I deepened my understanding of error behavior in numerical quadrature.
+- Deriving exact integrals for trigonometric and exponential functions required careful application of calculus (e.g., \( \int \sin(5x)/2 \, dx = -\cos(5x)/10 \)).
+- Initially, error calculations showed zero due to floating-point precision issues with the `float` type; switching to `double` would improve accuracy, which I plan to address in future iterations.
+- Formatting the output table with `std::setw` and `std::setprecision` to align decimal points took some trial-and-error.
+- I gained confidence in using `std::function` and lambda expressions for dynamic function selection, deepened my understanding of numerical errors, and improved my ability to compare the accuracy of numerical methods.
 
 ## 7. Future Improvements
-- Add numerical‐stability checks for very large intervals or extremely fine subintervals.  
-- Allow the user to input a custom function (e.g., via a simple expression parser).  
-- Implement higher-order or specialized methods (e.g., Gaussian Quadrature, adaptive quadrature).
+- Switch to `double` instead of `float` to improve numerical precision in error calculations.
+- Add numerical stability checks for very large intervals or extremely high numbers of subintervals.
+- Allow the user to input custom functions via a simple expression parser.
+- Implement additional methods, such as Gaussian Quadrature or adaptive quadrature, for higher accuracy.
 
-## 8. References
-- Chapra, S. C. & Canale, R. P. **Numerical Methods for Engineers** (for theory of numerical integration).  
-- GeeksforGeeks – tutorials on C++ I/O and formatting (e.g., `setw`, `setprecision`).  
-- cppreference.com – documentation for `std::function`, lambdas, and I/O manipulators.
+## 8. Potential Research Applications
+This numerical integration solver can be applied in computational research, particularly in physics and engineering. For example:
+- In computational physics, it can calculate the work done by a force field over a path by integrating the force function.
+- In numerical simulations, it can compute areas under curves representing physical quantities (e.g., velocity-time graphs to find displacement).
+This project demonstrates my ability to implement and analyze numerical methods, preparing me for research tasks in a summer 2026 internship.
 
+## 9. References
+- GeeksforGeeks – tutorials on C++ I/O and formatting (e.g., `setw`, `setprecision`).

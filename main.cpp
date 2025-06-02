@@ -145,7 +145,7 @@ int main() {
             cin >> intervals;
         }
         
-        float h[3] = {(upper_limit - lower_limit) / intervals};
+        float h = {(upper_limit - lower_limit) / intervals};
         
         cout << '\n';
         
@@ -153,6 +153,7 @@ int main() {
         float integral[3];
         float actualIntegral = funcintegral(upper_limit) - funcintegral(lower_limit);
         float error[3];
+        float minError;
         
         cout << "Function: " << funcStr << '\n';;
         
@@ -160,22 +161,25 @@ int main() {
         cout << left << setw(col1) << " " << setw(col2) << "Trapezoidal" << setw(col3) << "Simpson's 1/3" << setw(col4) << "Simpson's 3/8" << '\n';
         
         // Printinf 1st Row
-        integral[0] = Trapezoidal(lower_limit, upper_limit, intervals, h[0], func);
+        integral[0] = Trapezoidal(lower_limit, upper_limit, intervals, h, func);
         error[0] = abs(integral[0] - actualIntegral);
+        minError = error[0];
         cout << left << setw(col1) << "Integral";
         cout << left << setw(col2) << fixed << setprecision(6) << integral[0];
         
         if(intervals % 2 == 0) {
-            integral[1] = Simpson13(lower_limit, upper_limit, intervals, h[1], func);
+            integral[1] = Simpson13(lower_limit, upper_limit, intervals, h, func);
             error[1] = abs(integral[1] - actualIntegral);
+            minError = min(minError, error[1]);
             cout << left << setw(col3) << fixed << setprecision(6) << integral[1];
         }else {
             cout << left << setw(col3) << "Invalid Intervals!";
         }
 
         if(intervals % 3 == 0) {
-            integral[2] = Simpson38(lower_limit, upper_limit, intervals, h[2], func);
+            integral[2] = Simpson38(lower_limit, upper_limit, intervals, h, func);
             error[2] = abs(integral[2] - actualIntegral);
+            minError = min(minError, error[2]);
             cout << left << setw(col4) << fixed << setprecision(6) << integral[2];
         }else {
             cout << left << setw(col4) << "Invalid Intervals!";
@@ -198,6 +202,20 @@ int main() {
             cout << left << setw(col4) << "Invalid Intervals!";
         }
         
-        cout << "\n\n";
+        cout << '\n';
+        
+        if(minError == error[0]) {
+            cout << "Most Accurate Method: Trapezoidal\n";
+        }
+        
+        if(intervals % 2 == 0 && minError == error[1]) {
+            cout << "Most Accurate Method: Simpson's 1/3 Rule\n";
+        }
+        
+        if(intervals % 3 == 0 && minError == error[2]) {
+            cout << "Most Accurate Method: Simpson's 3/8 Rule\n";
+        }
+        
+        cout << "\n";
     }
 }
