@@ -5,10 +5,10 @@
 **Language**: C++
 
 ## 1. Introduction
-This project implements a numerical integration solver in C++ to compute the definite integral of a function using three methods: the Trapezoidal Rule, Simpson’s 1/3 Rule, and Simpson’s 3/8 Rule. I developed this project to enhance my understanding of numerical methods, which are fundamental to my interest in Applied Mathematics, and to improve my C++ programming skills as part of my preparation for a master’s program and a summer 2026 research internship.
+This project implements a numerical integration solver in C++ to compute the definite integral of a function using three methods: the Trapezoidal Rule, Simpson’s 1/3 Rule, and Simpson’s 3/8 Rule. I developed this project to enhance my understanding of numerical methods, which are fundamental to my interest in Applied Mathematics, and to improve my C++ programming skills.
 
 ## 2. Problem Statement
-The objective is to calculate the definite integral \( \int_a^b f(x) \, dx \) for a given function \( f(x) \) over an interval \([a, b]\) using numerical methods. The program supports four predefined functions and compares the numerical results with the exact integral to compute errors, providing insights into the accuracy of each method.
+The objective is to calculate the definite integral ![integral](https://latex.codecogs.com/png.image?\dpi{120}&space;\int_a^b&space;f(x)\,dx) for a given function $ f(x) $ over an interval $[a, b]$ using numerical methods. The program supports four predefined functions and compares the numerical results with the exact integral to compute errors, providing insights into the accuracy of each method.
 
 ## 3. Approach and Methodology
 The project uses three numerical integration methods:
