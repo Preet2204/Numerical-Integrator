@@ -1,6 +1,6 @@
 # Numerical Integration Solver
 
-**Author**: Siddhapura Preet Kuman
+**Author**: Siddhapura Preet Kuman  
 **Date**: June 2, 2025  
 **Language**: C++
 
