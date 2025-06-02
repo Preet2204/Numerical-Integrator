@@ -5,12 +5,11 @@
 #include <iomanip>
 using namespace std;
 
-float Trapezoidal(float lower_limit, float upper_limit, int intervals, function<float(float)>   func) {
+float Trapezoidal(float lower_limit, float upper_limit, int intervals, function<float(float)> func) {
     
     float h = (upper_limit - lower_limit) / intervals;
     
     float sum = func(lower_limit) / 2 + func(upper_limit) / 2;
-    
     for(int i = 1; i < intervals; ++i) {
         sum += func(lower_limit + i*h);
     }
@@ -24,7 +23,6 @@ float Simpson13(float lower_limit, float upper_limit, int intervals, function<fl
     float h = (upper_limit - lower_limit) / intervals;
 
     float sum = func(lower_limit) + func(upper_limit);
-
     for(int i = 1; i < intervals; i += 2) {
         sum += 4 * func(lower_limit + i * h);
     }
@@ -43,7 +41,6 @@ float Simpson38(float lower_limit, float upper_limit, int intervals, function<fl
     float h = (upper_limit - lower_limit) / intervals;
 
     float sum = func(lower_limit) + func(upper_limit);
-    
     for(int i = 1; i < intervals; i += 3) {
         sum += 3 * func(lower_limit + i * h);
         if(i + 1 < intervals) 
@@ -61,12 +58,19 @@ float Simpson38(float lower_limit, float upper_limit, int intervals, function<fl
 
 int main() {
     
+    string funcStr1 = "x^2 + 3x + 2";
     auto func1 = [](float x) -> float { return x*x + 3*x + 2; };
     auto func1integral = [](float x) -> float { return (x*x*x/3 + 3*x*x/2 + 2*x); };
+    
+    string funcStr2 = "sin(5x)/2 + 1";
     auto func2 = [](float x) -> float { return sin(5 * x) / 2 + 1; };
     auto func2integral = [](float x) -> float { return (-cos(5 * x) / 10 + x); };
-    auto func3 = [](float x) -> float { return 3 * cos(2 * x) + 1; };
-    auto func3integral = [](float x) -> float { return (3 * sin(2 * x) / 2 + x); };
+    
+    string funcStr3 = "3cos(2x) + 2";
+    auto func3 = [](float x) -> float { return 3 * cos(2 * x) + 2; };
+    auto func3integral = [](float x) -> float { return (3 * sin(2 * x) / 2 + 2 * x); };
+    
+    string funcStr4 = "2e^(3x)";
     auto func4 = [](float x) -> float { return 2 * exp(3 * x); };
     auto func4integral = [](float x) -> float { return 2 * exp(3 * x) / 3; };
     
@@ -76,7 +80,7 @@ int main() {
         cout << "Choose the function you would Like to Integrate. (Enter Number)\n";
         cout << "1. x^2 + 3*x + 2\n";
         cout << "2. sin(5*x)/2 + 1\n";
-        cout << "3. 3 * cos(2*x) + 1\n";
+        cout << "3. 3 * cos(2*x) + 2\n";
         cout << "4. 2 * e^(3*x)\n";
         cout << "5. Exit\n";
         
@@ -92,23 +96,28 @@ int main() {
             return 0;
         }
         
+        string funcStr;
         function<float(float)> func;
         function<float(float)> funcintegral;
         
         switch(funcChoice) {
             case 1:
+                funcStr = funcStr1;
                 func = func1;
                 funcintegral = func1integral;
                 break;
             case 2:
+                funcStr = funcStr2;
                 func = func2;
                 funcintegral = func2integral;
                 break;
             case 3:
+                funcStr = funcStr3;
                 func = func3;
                 funcintegral = func3integral;
                 break;
             case 4:
+                funcStr = funcStr4;
                 func = func4;
                 funcintegral = func4integral;
                 break;
@@ -146,6 +155,8 @@ int main() {
         float integral[3];
         float actualIntegral = funcintegral(upper_limit) - funcintegral(lower_limit);
         float error[3];
+        
+        cout << "Function: " << funcStr << '\n';;
         
         // Printing Header
         cout << left << setw(col1) << " " << setw(col2) << "Trapezoidal" << setw(col3) << "Simpson's 1/3" << setw(col4) << "Simpson's 3/8" << '\n';
@@ -191,5 +202,4 @@ int main() {
         
         cout << "\n\n";
     }
-    
 }
