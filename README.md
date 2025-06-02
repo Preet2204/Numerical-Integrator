@@ -1,6 +1,6 @@
 # Numerical Integration Solver
 
-**Author**: Siddhapura Preet Kumar  
+**Author**: Siddhapura Preet Kuman
 **Date**: June 2, 2025  
 **Language**: C++
 
@@ -17,19 +17,19 @@ The project employs three numerical integration methods:
 
 - **Trapezoidal Rule**  
   Approximates the integral as:  
-  ![Trapezoidal formula](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx\approx\frac{h}{2}\bigl(f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)\bigr))  
+  ![Trapezoidal formula](https://latex.codecogs.com/png.image?\dpi{150}\int_a^b%20f(x)\,dx\approx\frac{h}{2}\bigl(f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)\bigr))  
   where  
   ![h formula](https://latex.codecogs.com/png.image?\dpi{100}h=\frac{b-a}{n})  
   and \( n \) is the number of subintervals.
 
 - **Simpson’s 1/3 Rule**  
   Approximates the integral as:  
-  ![Simpson 1/3 formula](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx\approx\frac{h}{3}\Bigl(f(a)+4\sum_{\substack{i=1\\i\,\text{odd}}}^{n-1}f(x_i)+2\sum_{\substack{i=2\\i\,\text{even}}}^{n-2}f(x_i)+f(b)\Bigr))  
+  ![Simpson 1/3 formula](https://latex.codecogs.com/png.image?\dpi{150}\int_a^b%20f(x)\,dx\approx\frac{h}{3}\Bigl(f(a)+4\sum_{\substack{i=1\i\equiv1\pmod2}}^{n-1}f(x_i)+2\sum_{\substack{i=2\\i\equiv0\pmod2}}^{n-2}f(x_i)+f(b)\Bigr))  
   requiring \( n \) to be even.
 
 - **Simpson’s 3/8 Rule**  
   Approximates the integral as:  
-  ![Simpson 3/8 formula](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx\approx\frac{3h}{8}\Bigl(f(a)+3\sum_{\substack{i=1\\i\equiv1\pmod3}}^{n-2}f(x_i)+3\sum_{\substack{i=2\\i\equiv2\pmod3}}^{n-1}f(x_i)+2\sum_{\substack{i=3\\i\equiv0\pmod3}}^{n-3}f(x_i)+f(b)\Bigr))  
+  ![Simpson 3/8 formula](https://latex.codecogs.com/png.image?\dpi{150}\int_a^b%20f(x)\,dx\approx\frac{3h}{8}\Bigl(f(a)+3\sum_{\substack{i=1\\i\equiv1\pmod3}}^{n-2}f(x_i)+3\sum_{\substack{i=2\\i\equiv2\pmod3}}^{n-1}f(x_i)+2\sum_{\substack{i=3\\i\equiv0\pmod3}}^{n-3}f(x_i)+f(b)\Bigr))  
   requiring \( n \) to be a multiple of 3.
 
 **Implementation Outline:**  
@@ -81,13 +81,10 @@ Test cases (all values rounded to six decimals in the output):
 > **Note:** For Simpson’s 3/8 Rule, \(n\) must be a multiple of 3. Because 100 ÷ 3 is not integral, the solver reports “Invalid” for that method.
 
 ## 6. Challenges and Learnings
-- Deriving exact integrals for trigonometric and exponential functions required careful application of calculus (e.g., \( \int \sin(5x)/2 \, dx = -\cos(5x)/10 \)).
-- Initially, error calculations showed zero due to floating-point precision issues with the `float` type; switching to `double` would improve accuracy, which I plan to address in future iterations.
 - Formatting the output table with `std::setw` and `std::setprecision` to align decimal points took some trial-and-error.
 - I gained confidence in using `std::function` and lambda expressions for dynamic function selection, deepened my understanding of numerical errors, and improved my ability to compare the accuracy of numerical methods.
 
 ## 7. Future Improvements
-- Switch to `double` instead of `float` to improve numerical precision in error calculations.
 - Add numerical stability checks for very large intervals or extremely high numbers of subintervals.
 - Allow the user to input custom functions via a simple expression parser.
 - Implement additional methods, such as Gaussian Quadrature or adaptive quadrature, for higher accuracy.

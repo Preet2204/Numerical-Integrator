@@ -5,20 +5,20 @@
 #include <iomanip>
 using namespace std;
 
-float Trapezoidal(float lower_limit, float upper_limit, int intervals, float h, function<float(float)> func) {
+double Trapezoidal(double lower_limit, double upper_limit, int intervals, double h, function<double(double)> func) {
 
-    float sum = func(lower_limit) / 2 + func(upper_limit) / 2;
+    double sum = func(lower_limit) / 2 + func(upper_limit) / 2;
     for(int i = 1; i < intervals; ++i) {
         sum += func(lower_limit + i*h);
     }
     
-    float integral = h * sum;
+    double integral = h * sum;
     return integral;
 }
 
-float Simpson13(float lower_limit, float upper_limit, int intervals, float h, function<float(float)> func) {
+double Simpson13(double lower_limit, double upper_limit, int intervals, double h, function<double(double)> func) {
 
-    float sum = func(lower_limit) + func(upper_limit);
+    double sum = func(lower_limit) + func(upper_limit);
     for(int i = 1; i < intervals; i += 2) {
         sum += 4 * func(lower_limit + i * h);
     }
@@ -27,14 +27,14 @@ float Simpson13(float lower_limit, float upper_limit, int intervals, float h, fu
         sum += 2 * func(lower_limit + i * h);
     }
 
-    float integral = (h * sum) / 3;
+    double integral = (h * sum) / 3;
 
     return integral;
 }
 
-float Simpson38(float lower_limit, float upper_limit, int intervals, float h, function<float(float)> func) {
+double Simpson38(double lower_limit, double upper_limit, int intervals, double h, function<double(double)> func) {
 
-    float sum = func(lower_limit) + func(upper_limit);
+    double sum = func(lower_limit) + func(upper_limit);
     for(int i = 1; i < intervals; i += 3) {
         sum += 3 * func(lower_limit + i * h);
         if(i + 1 < intervals) 
@@ -45,7 +45,7 @@ float Simpson38(float lower_limit, float upper_limit, int intervals, float h, fu
         sum += 2 * func(lower_limit + i * h);
     }
     
-    float integral = 3 * h * sum / 8;
+    double integral = 3 * h * sum / 8;
     
     return integral;
 }
@@ -53,20 +53,20 @@ float Simpson38(float lower_limit, float upper_limit, int intervals, float h, fu
 int main() {
     
     string funcStr1 = "x^2 + 3x + 2";
-    auto func1 = [](float x) -> float { return x*x + 3*x + 2; };
-    auto func1integral = [](float x) -> float { return (x*x*x/3 + 3*x*x/2 + 2*x); };
+    auto func1 = [](double x) -> double { return x*x + 3*x + 2; };
+    auto func1integral = [](double x) -> double { return (x*x*x/3 + 3*x*x/2 + 2*x); };
 
     string funcStr2 = "sin(5x)/2 + 1";
-    auto func2 = [](float x) -> float { return sin(5 * x) / 2 + 1; };
-    auto func2integral = [](float x) -> float { return (-cos(5 * x) / 10 + x); };
+    auto func2 = [](double x) -> double { return sin(5 * x) / 2 + 1; };
+    auto func2integral = [](double x) -> double { return (-cos(5 * x) / 10 + x); };
 
     string funcStr3 = "3cos(2x) + 2";
-    auto func3 = [](float x) -> float { return 3 * cos(2 * x) + 2; };
-    auto func3integral = [](float x) -> float { return (3 * sin(2 * x) / 2 + 2 * x); };
+    auto func3 = [](double x) -> double { return 3 * cos(2 * x) + 2; };
+    auto func3integral = [](double x) -> double { return (3 * sin(2 * x) / 2 + 2 * x); };
 
     string funcStr4 = "2e^(3x)";
-    auto func4 = [](float x) -> float { return 2 * exp(3 * x); };
-    auto func4integral = [](float x) -> float { return 2 * exp(3 * x) / 3; };
+    auto func4 = [](double x) -> double { return 2 * exp(3 * x); };
+    auto func4integral = [](double x) -> double { return 2 * exp(3 * x) / 3; };
     
     cout << "\nWelcome to the Numerical Integrator!\n\n";
     while(true) {
@@ -91,8 +91,8 @@ int main() {
         }
         
         string funcStr;
-        function<float(float)> func;
-        function<float(float)> funcintegral;
+        function<double(double)> func;
+        function<double(double)> funcintegral;
         
         switch(funcChoice) {
             case 1:
@@ -118,11 +118,11 @@ int main() {
         }
 
         cout << "\nEnter the lower limit of integration: ";
-        float lower_limit;
+        double lower_limit;
         cin >> lower_limit;
         
         cout << "Enter the upper limit of Integration: ";
-        float upper_limit;
+        double upper_limit;
         cin >> upper_limit;
         
         while(lower_limit > upper_limit) {
@@ -145,15 +145,15 @@ int main() {
             cin >> intervals;
         }
         
-        float h = {(upper_limit - lower_limit) / intervals};
+        double h = {(upper_limit - lower_limit) / intervals};
         
         cout << '\n';
         
         int col1 = 15, col2 = 25, col3 = 25, col4 = 25;
-        float integral[3];
-        float actualIntegral = funcintegral(upper_limit) - funcintegral(lower_limit);
-        float error[3];
-        float minError;
+        double integral[3];
+        double actualIntegral = funcintegral(upper_limit) - funcintegral(lower_limit);
+        double error[3];
+        double minError;
         
         cout << "Function: " << funcStr << '\n';;
         
