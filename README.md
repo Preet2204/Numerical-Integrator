@@ -80,20 +80,7 @@ Test cases (all values rounded to six decimals in the output):
 
 > **Note:** For Simpson’s 3/8 Rule, \(n\) must be a multiple of 3. Because 100 ÷ 3 is not integral, the solver reports “Invalid” for that method.
 
-## 6. Challenges and Learnings
-- Formatting the output table with `std::setw` and `std::setprecision` to align decimal points took some trial-and-error.
-- I gained confidence in using `std::function` and lambda expressions for dynamic function selection, deepened my understanding of numerical errors, and improved my ability to compare the accuracy of numerical methods.
-
-## 7. Future Improvements
+## 6. Future Improvements
 - Add numerical stability checks for very large intervals or extremely high numbers of subintervals.
 - Allow the user to input custom functions via a simple expression parser.
 - Implement additional methods, such as Gaussian Quadrature or adaptive quadrature, for higher accuracy.
-
-## 8. Potential Research Applications
-This numerical integration solver can be applied in computational research, particularly in physics and engineering. For example:
-- In computational physics, it can calculate the work done by a force field over a path by integrating the force function.
-- In numerical simulations, it can compute areas under curves representing physical quantities (e.g., velocity-time graphs to find displacement).
-This project demonstrates my ability to implement and analyze numerical methods, preparing me for research tasks in a summer 2026 internship.
-
-## 9. References
-- GeeksforGeeks – tutorials on C++ I/O and formatting (e.g., `setw`, `setprecision`).
