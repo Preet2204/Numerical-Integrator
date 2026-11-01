@@ -1,3 +1,5 @@
-a.out
-integrator.exe
-integrator.out
+build/
+*.out
+*.exe
+*.o
+.DS_Store

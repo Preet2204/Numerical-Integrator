@@ -70,8 +70,8 @@ int main() {
     InitWindow(1000, 800, "Numerical Integrator (Raygui + TinyExpr)");
     SetTargetFPS(60);
 
-    Font font = LoadFontEx("/usr/share/fonts/opentype/urw-base35/C059-Roman.otf", 20, 0, 250);
-    Font bigFont = LoadFontEx("/usr/share/fonts/opentype/urw-base35/C059-Roman.otf", 35, 0, 250);
+    Font font = LoadFontEx("resources/C059-Roman.otf", 20, 0, 250);
+    Font bigFont = LoadFontEx("resources/C059-Roman.otf", 35, 0, 250);
 
     GuiSetFont(font);
     GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, ColorToInt(DARKGRAY));
