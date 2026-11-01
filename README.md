@@ -1,86 +1,142 @@
-# Numerical Integration Solver
+# Numerical Integrator
 
-**Author**: Siddhapura Preet Kuman  
-**Date**: June 2, 2025  
-**Language**: C++
+A small C++ project for learning numerical integration methods and GUI programming with [raylib](https://www.raylib.com/).
 
-## 1. Introduction
-This project implements a numerical integration solver in C++ to compute the definite integral of a function using three methods: the Trapezoidal Rule, Simpson’s 1/3 Rule, and Simpson’s 3/8 Rule. I developed this project to deepen my understanding of numerical methods, which are fundamental to my interest in Applied Mathematics, and to enhance my C++ programming skills. The solver calculates integrals, compares them with exact values to determine errors, and identifies the most accurate method for each computation.
+> **Note on versions:** This project started as a CLI program (`main.cpp`). The current, latest version is the GUI program in `integrator.cpp`, built with raylib and raygui. `main.cpp` is kept as the legacy command-line version.
 
-## 2. Problem Statement
-The objective is to calculate the definite integral  
-![∫_a^b f(x) dx](https://latex.codecogs.com/png.image?\dpi{120}\int_a^b%20f(x)\,dx)  
-for a given function \( f(x) \) over an interval \([a, b]\) using numerical methods. The program supports four predefined functions, computes the integral using all applicable methods, compares numerical results with the exact integral to calculate errors, and identifies the method with the smallest error, providing insights into the accuracy of each approach.
+## What it does
 
-## 3. Approach and Methodology
-The project employs three numerical integration methods:
+Computes the definite integral of a function of `x` over an interval `[a, b]` using three numerical methods:
 
-- **Trapezoidal Rule**  
-  Approximates the integral as:  
-  ![Trapezoidal formula](https://latex.codecogs.com/png.image?\dpi{150}\int_a^b%20f(x)\,dx\approx\frac{h}{2}\bigl(f(a)+2\sum_{i=1}^{n-1}f(x_i)+f(b)\bigr))  
-  where  
-  ![h formula](https://latex.codecogs.com/png.image?\dpi{100}h=\frac{b-a}{n})  
-  and \( n \) is the number of subintervals.
+1. **Trapezoidal Rule** — works for any number of intervals.
+2. **Simpson's 1/3 Rule** — requires the number of intervals to be a multiple of 2.
+3. **Simpson's 3/8 Rule** — requires the number of intervals to be a multiple of 3.
 
-- **Simpson’s 1/3 Rule**  
-  Approximates the integral as:  
-  ![Simpson 1/3 formula](https://latex.codecogs.com/png.image?\dpi{150}\int_a^b%20f(x)\,dx\approx\frac{h}{3}\Bigl(f(a)+4\sum_{\substack{i=1\i\equiv1\pmod2}}^{n-1}f(x_i)+2\sum_{\substack{i=2\\i\equiv0\pmod2}}^{n-2}f(x_i)+f(b)\Bigr))  
-  requiring \( n \) to be even.
+The GUI version lets you type in your own function (e.g. `x*x + 3*x + 2`, `sin(5*x)/2 + 1`), set the lower and upper limits and the number of intervals, then click **Integrate** to see all applicable results side by side. Invalid inputs are highlighted with error messages, and **Reset** restores the default values.
 
-- **Simpson’s 3/8 Rule**  
-  Approximates the integral as:  
-  ![Simpson 3/8 formula](https://latex.codecogs.com/png.image?\dpi{150}\int_a^b%20f(x)\,dx\approx\frac{3h}{8}\Bigl(f(a)+3\sum_{\substack{i=1\\i\equiv1\pmod3}}^{n-2}f(x_i)+3\sum_{\substack{i=2\\i\equiv2\pmod3}}^{n-1}f(x_i)+2\sum_{\substack{i=3\\i\equiv0\pmod3}}^{n-3}f(x_i)+f(b)\Bigr))  
-  requiring \( n \) to be a multiple of 3.
+## Why this project exists
 
-**Implementation Outline:**  
-1. Allow the user to select one of four predefined functions.  
-2. Prompt for interval endpoints \( a \) and \( b \), plus the number of subintervals \( n \).  
-3. Compute the integral using all applicable methods (checking that \( n \) is even for Simpson’s 1/3 Rule, a multiple of 3 for Simpson’s 3/8 Rule).  
-4. Compare each numerical result with the exact integral to calculate absolute errors.  
-5. Identify the method with the smallest error and display it as the most accurate method.
+This was built for learning purposes — to understand how numerical integration methods work under the hood, and to get hands-on with raylib/raygui for building a desktop GUI in C++. It is not intended to be a production-grade numerical library.
 
-## 4. Implementation Details
-- **Function Selection**  
-  Uses `std::function<float(float)>` and lambda expressions to switch among four predefined functions:  
-  1. \( x^2 + 3x + 2 \)  
-  2. \( \sin(5x)/2 + 1 \)  
-  3. \( 3\cos(2x) + 2 \)  
-  4. \( 2e^{3x} \)
+## Tech stack
 
-- **Input Validation**  
-  - Ensures \( a < b \).  
-  - Validates that \( n > 0 \).  
-  - Verifies that \( n \) is even when using Simpson’s 1/3 Rule.  
-  - Verifies that \( n \) is a multiple of 3 when using Simpson’s 3/8 Rule.
+- **Language:** C++ (C++17)
+- **GUI:** raylib 5.5 + raygui (fetched automatically by CMake)
+- **Expression parsing:** [tinyexpr](https://github.com/codeplea/tinyexpr) (vendored, Zlib license) — parses the user-typed function at runtime
+- **Build system:** CMake
+- **Font:** `resources/C059-Roman.otf`
 
-- **Output Formatting**  
-  Uses `std::setw` and `std::setprecision` to produce a neatly aligned table. Integral values are shown with six decimal places, and errors are shown with twelve decimal places for clarity. The program also displays the most accurate method based on the smallest error.
+## Project structure
 
-## 5. Results
-Test cases (all values rounded to six decimals in the output):
+```
+Numerical-Integrator/
+├── integrator.cpp    # Latest GUI version (raylib + raygui + tinyexpr)
+├── main.cpp          # Legacy CLI version (hardcoded functions, error table)
+├── tinyexpr.c        # Vendored expression parser
+├── tinyexpr.h
+├── CMakeLists.txt    # CMake build (fetches raylib & raygui)
+├── resources/
+│   └── C059-Roman.otf
+├── LICENSE           # MIT
+└── README.md
+```
 
-1. **Function**: \(x^2 + 3x + 2\)  
-   **Interval**: \([0, 2]\), \(n = 12\)  
-   - Exact Integral: \(38/3 = 12.666667\)  
-   - Trapezoidal: 12.675926  (Error: 0.009259)  
-   - Simpson’s 1/3: 12.666667  (Error: 0.000000)  
-   - Simpson’s 3/8:  12.666667  (Error: 0.000000)
+## Building
 
-2. **Function**: \(sin(5x)/2 + 1\)  
-   **Interval**: \([0, 3.141592]\), \(n = 30\)  
-   - Trapezoidal: 3.337002  (Error: 0.004591)  
-   - Simpson’s 1/3: 3.341680  (Error: 0.000087)  
-   - Simpson’s 3/8:  3.341794  (Error: 0.000201)
+You need a C++17 compiler and CMake. raylib and raygui are downloaded and built automatically via CMake's `FetchContent`, so you don't need to install them beforehand.
 
-3. **Function**: \(2 e^{3x}\)  
-   **Interval**: \([0, 1]\), \(n = 100\)  
-   - Trapezoidal: 12.724645  (Error: 0.640392)  
-   - Simpson’s 1/3: 12.723693  (Error: 0.641344)  
-   - Simpson’s 3/8:  Invalid (n = 100 is not a multiple of 3)
+```bash
+# Clone or enter the project folder
+cd Numerical-Integrator
 
-> **Note:** For Simpson’s 3/8 Rule, \(n\) must be a multiple of 3. Because 100 ÷ 3 is not integral, the solver reports “Invalid” for that method.
+# Configure and build
+mkdir -p build && cd build
+cmake ..
+cmake --build .   # or: make
+```
 
-## 6. Future Improvements
-- Add numerical stability checks for very large intervals or extremely high numbers of subintervals.
-- Allow the user to input custom functions via a simple expression parser.
-- Implement additional methods, such as Gaussian Quadrature or adaptive quadrature, for higher accuracy.
+The `resources/` folder is copied into the build directory automatically so the font loads at runtime.
+
+Run the program:
+
+```bash
+./integrator
+```
+
+## Building on Windows
+
+The same CMake setup works on Windows. You will need:
+
+- **CMake** (3.14 or newer)
+- **A C++ compiler**: MSVC (via Visual Studio Build Tools), MinGW-w64, or Clang
+- **Git** (required by CMake's FetchContent to download raylib and raygui)
+- An internet connection (for FetchContent to download dependencies)
+
+### Option A: Visual Studio / MSVC (Recommended)
+
+Open a "Developer Command Prompt for VS" or "x64 Native Tools Command Prompt":
+
+```powershell
+mkdir build
+cd build
+cmake .. -G "Visual Studio 17 2022" -A x64
+cmake --build . --config Release
+```
+
+This produces `build/Release/integrator.exe`. Run it from the `build/` folder so it can find the copied `resources/` font:
+
+```powershell
+cd build
+.\Release\integrator.exe
+```
+
+### Option B: MinGW-w64
+
+```powershell
+mkdir build
+cd build
+cmake .. -G "MinGW Makefiles"
+cmake --build .
+```
+
+This produces `build/integrator.exe`. Run it from the `build/` folder:
+
+```powershell
+cd build
+.\integrator.exe
+```
+
+### Notes
+
+- raylib and raygui are downloaded and compiled automatically by CMake's `FetchContent`, so you don't need to install them manually.
+- The `resources/` folder is copied into `build/` at configure time, so run the executable from the `build/` directory (or copy `resources/` next to the `.exe`) so the font loads correctly.
+- If you get a missing DLL error at runtime, you may need the Microsoft Visual C++ Redistributable (for MSVC) or MinGW's `bin` folder in your PATH (for MinGW).
+
+## How to use (GUI version)
+
+1. Run `./integrator`.
+2. Type a function of `x` in the **Enter function of x** field (default: `x*x + 3*x + 2`). Examples:
+   - `x*x + 3*x + 2`
+   - `sin(5*x)/2 + 1`
+   - `3*cos(2*x) + 2`
+   - `2*exp(3*x)`
+3. Enter the **Lower Limit**, **Upper Limit**, and **Intervals**.
+4. Click **Integrate**.
+5. Results for each applicable method appear on screen. Simpson's methods show "Invalid intervals" when the interval count doesn't meet their divisibility requirement.
+6. Click **Reset** to restore default values.
+
+### Input validation
+
+- All fields must be filled in.
+- Limits and intervals must be numeric.
+- Lower limit must be ≤ upper limit.
+- Intervals must be greater than 0.
+- The function expression must be parseable by tinyexpr.
+
+## Legacy CLI version (`main.cpp`)
+
+The original version runs in the terminal. It offers four predefined functions, computes each applicable method, compares against the exact integral, prints absolute errors, and reports the most accurate method. It is kept for reference; `integrator.cpp` is the active version.
+
+## License
+
+MIT License. See `LICENSE` for details.
