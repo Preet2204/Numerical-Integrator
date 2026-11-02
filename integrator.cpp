@@ -1,6 +1,6 @@
 // integrator.cpp
 // This Code is Written on Ubuntu
- 
+
 #include <iostream>
 #include <cmath>
 #include <functional>
@@ -66,6 +66,16 @@ bool isNumeric(const char* str) {
     return *end == '\0' && str != end; // Ensures entire string is numeric
 }
 
+bool isInt(const char* str) {
+    if (isNumeric(str)) {
+        int a = atoi(str);
+        float b = atof(str);
+        if(a == b)
+            return true;
+    }
+    return false;
+}
+
 int main() {
     InitWindow(1000, 800, "Numerical Integrator (Raygui + TinyExpr)");
     SetTargetFPS(60);
@@ -82,11 +92,11 @@ int main() {
     char lowerStr[64] = "0";
     char upperStr[64] = "10";
     char intervalsStr[64] = "120";
-    
+
     char currentFunction[256] = "x*x + 3*x + 2";
     char currentLower[64] = "0";
     char currentUpper[64] = "10";
-    
+
     bool validExpr = true;
     double resultTrap = 0, resultSimp13 = 0, resultSimp38 = 0;
     bool calculated = false;
@@ -131,19 +141,19 @@ int main() {
         if(strlen(functionInput) == 0) {
             DrawTextEx(font, "Function Input Invalid!", {500, 20}, 20, 2, RED);
         }
-        
+
         if(strlen(lowerStr) == 0) {
             DrawTextEx(font, "Lower Limit Input is Empty!", {300, 100}, 20, 2, RED);
         }else if(!isNumeric(lowerStr)) {
             DrawTextEx(font, "Lower Limit Should be numeric!", {300, 100}, 20, 2, RED);
         }
-        
+
         if(strlen(upperStr) == 0) {
             DrawTextEx(font, "Upper Limit Input is Empty!", {300, 190}, 20, 2, RED);
         }else if(!isNumeric(upperStr)) {
             DrawTextEx(font, "Upper Limit Should be Numeric!", {300, 190}, 20, 2, RED);
         }
-        
+
         if(strlen(intervalsStr) == 0) {
             DrawTextEx(font, "Interval Input is Empty!", {300, 280}, 20, 2, RED);
         }else if(!isNumeric(intervalsStr)) {
@@ -152,24 +162,24 @@ int main() {
 
         GuiSetStyle(DEFAULT, TEXT_SIZE, 35);
         GuiSetFont(bigFont);
-        if (strlen(functionInput) > 0 && strlen(lowerStr) > 0 && strlen(upperStr) > 0 
-            && strlen(intervalsStr) > 0 && isNumeric(lowerStr) && isNumeric(upperStr) 
-            && isNumeric(intervalsStr) && GuiButton({ 650, 190, 200, 60 }, "Integrate")) {
+        if (strlen(functionInput) > 0 && strlen(lowerStr) > 0 && strlen(upperStr) > 0
+            && strlen(intervalsStr) > 0 && isNumeric(lowerStr) && isNumeric(upperStr)
+            && isInt(intervalsStr) && GuiButton({ 650, 190, 200, 60 }, "Integrate")) {
 
             double a = atof(lowerStr);
             double b = atof(upperStr);
-            int n = atoi(intervalsStr);
-            
+            int n = atof(intervalsStr);
+
             if (a > b) {
                 invalidLimits = true;
                 calculated = false;
             }else invalidLimits = false;
-            
+
             if (n <= 0) {
                 invalidIntervals = true;
                 calculated = false;
             }else invalidIntervals = false;
-            
+
             if (!invalidIntervals && !invalidLimits) {
                 bool ok = true;
                 auto f = parseUserFunction(functionInput, ok);
@@ -187,7 +197,7 @@ int main() {
                 }
             }
         }
-        
+
         if (GuiButton({ 650, 270, 200, 60 }, "Reset")) {
             strcpy(functionInput, "x*x + 3*x + 2");
             strcpy(lowerStr, "0");
